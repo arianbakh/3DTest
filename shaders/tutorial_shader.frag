@@ -1,3 +1,5 @@
+#version 150
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -5,14 +7,15 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform float u_time;
 uniform vec2 u_mouse;
+uniform sampler2D p3d_Texture0;
+
+in vec2 texCoord;
+
+out vec4 fragColor;
 
 void main() {
 	vec2 normFragCoord = gl_FragCoord.xy / u_resolution;
 	vec2 normMouseCoord = u_mouse / u_resolution;
-	gl_FragColor = vec4(
-		abs(normFragCoord.x - normMouseCoord.x),
-		abs(normFragCoord.y - normMouseCoord.y),
-		abs(0.5 * sin(u_time)),
-		1.0
-	);
+	vec4 texColor = texture(p3d_Texture0, texCoord);
+	fragColor = texColor;
 }
